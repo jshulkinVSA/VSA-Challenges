@@ -19,9 +19,9 @@ def divisors(num):
 
 def prime(num):
     list=divisors(num)
-    if list==0:
-        print list
-    return list
+    if len(list)<=2:
+        print "Congrats you have a prime, the list of divisors is ", list
+        return True
 
     """
     Takes a number and returns True if the number is prime, otherwise False
@@ -32,20 +32,32 @@ def prime(num):
 
 # Part II
 
-def intersection(lst1, lst2):
+def intersection(lst1,lst2):
+
+    answer_list=[]
+    for piece in lst1:
+        if piece in lst2 and piece not in answer_list:
+            answer_list.append(piece)
+
+
+
+    return answer_list
     """
     Takes two lists and returns a list of the elements in common between the lists
     :param lst1: list, any type
     :param lst2: list, any type
     :return: list, any type
     """
-    return ["test"]
+    #return ["test"]
 
 # Part III
 
 def find_ab(side1, side2, side3):
+    side1=a
+    side2=b
+    side3=c
     """
-    Takes three side lengths an returns two smallest in a list
+    Takes three side lengths and returns two smallest in a list
     :param side1: int or float
     :param side2: int or float
     :param side3: int or float
