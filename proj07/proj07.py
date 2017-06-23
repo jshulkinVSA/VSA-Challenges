@@ -62,7 +62,15 @@ def get_frequency_dict(sequence):
 # Problem #1: Scoring a word
 #
 def get_word_score(word, n):
-    """
+    word_score=0
+    for letter in word:
+       word_score=word_score+SCRABBLE_LETTER_VALUES[letter]
+    word_score=word_score*len(word)
+    if n==len(word):
+        word_score=word_score+50
+    return word_score
+
+"""
     Returns the score for a word. Assumes the word is a
     valid word.
 
@@ -82,6 +90,7 @@ def get_word_score(word, n):
 # Make sure you understand how this function works and what it does!
 #
 def display_hand(hand):
+
     """
     Displays the letters currently in the hand.
 
@@ -128,9 +137,17 @@ def deal_hand(n):
 
 #
 # Problem #2: Update a hand by removing letters
-#
+#frequency=get_frequency_dict()
+
 def update_hand(hand, word):
-    """
+    updated_hand=hand.copy()
+    for letter in word:
+        if letter in hand:
+            updated_hand[letter]=updated_hand[letter]-1
+
+    return updated_hand
+
+"""
     Assumes that 'hand' has all the letters in word.
 	In other words, this assumes that however many times
 	a letter appears in 'word', 'hand' has at least as
@@ -140,18 +157,35 @@ def update_hand(hand, word):
     and returns the new hand, without those letters in it.
 
     Has no side effects: does not modify hand.
-
+# return something new. Don't change the hand!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! .copy()s
     word: string
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
-    """
+"""
     # TO DO ...
 
 #
 # Problem #3: Test word validity
-#
+
+
 def is_valid_word(word, hand, word_list):
-    """
+    copy_hand = hand.copy()
+    word_copy = word
+
+    answer = True
+    if word not in word_list:
+        answer = False
+    for letter in word_copy:
+        if letter in copy_hand:
+            if copy_hand[letter] != 0:
+                copy_hand[letter] = copy_hand[letter]-1
+            else:
+                answer=False
+        elif letter not in copy_hand:
+            answer = False
+    return answer
+
+"""
     Returns True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
     Does not mutate hand or word_list.
@@ -160,7 +194,7 @@ def is_valid_word(word, hand, word_list):
     hand: dictionary (string -> int)
     word_list: list of lowercase strings
     """
-    # TO DO...
+
 
 def calculate_handlen(hand):
     handlen = 0
@@ -172,8 +206,27 @@ def calculate_handlen(hand):
 # Problem #4: Playing a hand
 #
 def play_hand(hand, word_list):
+    n=7
+    word=""
+    score=0
+    while HAND_SIZE != 0 and word != ".":
+        print "Current Hand",
+        display_hand(hand)
+        word=raw_input("Enter word, or a '.' to indicate that you are finished: ")
+        validity=is_valid_word(word,hand, word_list)
+        if validity==False and word != ".":
+            print "That is not a valid word, try again"
+        elif word != ".":
+            score=score+get_word_score(word, n)
+            print word, "earned", get_word_score(word,n), "points. Total:", score, "points"
+            hand=update_hand(hand, word)
+    print "Thanks for playing. You earned", score, "points."
 
-    """
+word_list=load_words()
+hand=deal_hand(7)
+play_hand(hand, word_list)
+
+"""
     Allows the user to play the given hand, as follows:
 
     * The hand is displayed.
@@ -206,6 +259,7 @@ def play_hand(hand, word_list):
 # Make sure you understand how this code works!
 # 
 def play_game(word_list):
+    
     """
     Allow the user to play an arbitrary number of hands.
 
