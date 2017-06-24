@@ -13,8 +13,28 @@ from perm import *
 # Problem #6A: Computer chooses a word
 #
 #
+
+
 def comp_choose_word(hand, word_list):
-    """
+    comp_lst_1=[]
+    max=0
+    for number in range (1, HAND_SIZE+1):
+        words=get_perms(hand , number)
+        for word in words:
+            if is_valid_word(word, hand, word_list) is True and word not in comp_lst_1:
+               comp_lst_1.append(word)
+    if comp_lst_1 is []:
+        return "nope"
+    for actual_word in comp_lst_1:
+        score=get_word_score(actual_word, HAND_SIZE)
+        if score >max:
+            max=get_word_score(actual_word, HAND_SIZE)
+    for actual_words in comp_lst_1:
+        word_score=get_word_score(actual_words, HAND_SIZE)
+        if word_score==max:
+            return actual_words
+
+"""
 	Given a hand and a word_dict, find the word that gives the maximum value score, 
 	and return it. This word should be calculated by considering all possible 
 	permutations of lengths 1 to HAND_SIZE.
@@ -26,9 +46,28 @@ def comp_choose_word(hand, word_list):
 
 #
 # Problem #6B: Computer plays a hand
-#
+
+
 def comp_play_hand(hand, word_list):
-    """
+    comp_word=""
+    total_score=0
+    while comp_word != "nope":
+        display_hand(hand)
+        comp_word=comp_choose_word(hand, word_list)
+        if comp_word == None:
+            return total_score
+        else:
+            w_score=get_word_score(comp_word, word_list)
+            total_score=w_score+total_score
+            print comp_word
+            hand=update_hand(hand, comp_word)
+    print total_score
+
+word_list = load_words()
+hand=deal_hand(HAND_SIZE)
+comp_play_hand(hand, word_list)
+
+"""
      Allows the computer to play the given hand, as follows:
 
      * The hand is displayed.
@@ -54,6 +93,7 @@ def comp_play_hand(hand, word_list):
 #
 #
 def play_game(word_list):
+
     """Allow the user to play an arbitrary number of hands.
 
     1) Asks the user to input 'n' or 'r' or 'e'.
@@ -73,7 +113,7 @@ def play_game(word_list):
     word_list: list (string)
     """
     # TO DO...
-        
+
 #
 # Build data structures used for entire session and play game
 #

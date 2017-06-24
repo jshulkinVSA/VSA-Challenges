@@ -206,25 +206,23 @@ def calculate_handlen(hand):
 # Problem #4: Playing a hand
 #
 def play_hand(hand, word_list):
-    n=7
     word=""
     score=0
     while HAND_SIZE != 0 and word != ".":
         print "Current Hand",
         display_hand(hand)
-        word=raw_input("Enter word, or a '.' to indicate that you are finished: ")
+        word = raw_input("Enter word, or a '.' to indicate that you are finished: ")
+        word = word.lower()
         validity=is_valid_word(word,hand, word_list)
-        if validity==False and word != ".":
+        if validity == False and word != ".":
             print "That is not a valid word, try again"
         elif word != ".":
-            score=score+get_word_score(word, n)
-            print word, "earned", get_word_score(word,n), "points. Total:", score, "points"
-            hand=update_hand(hand, word)
+            score=score+get_word_score(word, HAND_SIZE)
+            print word, "earned", get_word_score(word,HAND_SIZE), "points. Total:", score, "points"
+            hand = update_hand(hand, word)
     print "Thanks for playing. You earned", score, "points."
 
-word_list=load_words()
-hand=deal_hand(7)
-play_hand(hand, word_list)
+
 
 """
     Allows the user to play the given hand, as follows:
@@ -257,9 +255,24 @@ play_hand(hand, word_list)
 #
 # Problem #5: Playing a game
 # Make sure you understand how this code works!
-# 
+
+
 def play_game(word_list):
-    
+    hand = deal_hand(HAND_SIZE)
+    play_hand(hand, word_list)
+    player_input=""
+    while player_input != "e":
+        player_input=raw_input("Type 'n' to to play a new hand, type 'r' to replay hand, or type 'e' to exit the game: ")
+        if player_input =="e":
+            print "Thanks for playing."
+            quit()
+        elif player_input =="r":
+            play_hand(hand, word_list)
+        elif player_input== "n":
+            hand= deal_hand(HAND_SIZE)
+            play_hand(hand, word_list)
+
+
     """
     Allow the user to play an arbitrary number of hands.
 
@@ -273,7 +286,7 @@ def play_game(word_list):
     * If the user inputs 'e', exit the game.
 
     * If the user inputs anything else, ask them again.
-    """
+"""
     # TO DO...
 
 #
