@@ -47,6 +47,33 @@ def process(url):
 
 # TODO: NewsStory
 
+class NewsStory(object):
+    def __init__(self,guid,title,subject,summary,link):
+
+        self.guid = guid
+
+        self.title = title
+
+        self.subject = subject
+
+        self.summary = summary
+
+        self.link = link
+
+    def get_guid(self):
+        return self.guid
+
+    def get_title(self):
+        return self.title
+
+    def get_subject(self):
+        return self.subject
+
+    def get_summary(self):
+        return self.summary
+
+    def get_link(self):
+        return self.link
 #======================
 # Part 2
 # Triggers
@@ -62,21 +89,72 @@ class Trigger(object):
 
 # Whole Word Triggers
 # Problems 2-5
+import string
+class WordTrigger(Trigger):
+    def __init__(self, word):
+        self.word=word.lower()
+    def is_word_in(self, story):
+        story=story.lower()
+        for item in string.punctuation:
+            story=story.replace(item, ' ')
+        story=story.split(' ')
+        if self.word in story:
+            print True
+            return True
+        else:
+            print False
+            return False
+
+
+
 
 # TODO: WordTrigger
 
 # TODO: TitleTrigger
+class TitleTrigger(WordTrigger):
+    def evaluate (self,story):
+        story.get_title()
+        title=story.get_title()
+        return self.is_word_in(title)
 # TODO: SubjectTrigger
+class SubjectTrigger(WordTrigger):
+    def evaluate (self,story):
+        story.get_subject()
+        subject=story.get_subject()
+        return self.is_word_in(subject)
 # TODO: SummaryTrigger
-
+class SummaryTrigger(WordTrigger):
+    def evaluate (self,story):
+        story.get_summary()
+        summary=story.get_summary()
+        return self.is_word_in(summary)
 
 # Composite Triggers
 # Problems 6-8
 
 # TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
+class NotTrigger(Trigger):
+    def __init__(self,Trigger):
+        self.Trigger=Trigger
+    def evaluate (self,story):
 
+        return not self.Trigger.evaluate(story)
+# TODO: AndTrigger
+class AndTrigger(Trigger):
+    def __init__(self,Trigger1, Trigger2):
+        self.Trigger1=Trigger1
+        self.Trigger2=Trigger2
+
+    def evaluate(self, story):
+        if Trigger1 and Trigger2=True
+            return self.Trigger1.evaluate(story)
+            return self.Trigger2.evaluate(story)
+        else:
+            return False
+# TODO: OrTrigger
+class OrTrigger(Trigger):
+    def __init__(self,Trigger):
+        self.Trigger=Trigger
 
 # Phrase Trigger
 # Question 9
